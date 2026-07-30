@@ -1,12 +1,95 @@
 <html>
+<head>
+  
+  <style>
+    .countdown {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .box {
+      background: #1e3c72;
+      color: white;
+      border-radius: 12px;
+      padding: 20px 25px;
+      min-width: 90px;
+      text-align: center;
+    }
+    .number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      display: block;
+    }
+    .label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+    .done {
+      font-size: 2rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
 
+  <script>
+  const zielDatum = new Date(2026, 9, 30, 0, 0, 0).getTime();
+  const tageEl = document.getElementById("days");
+  const stundenEl = document.getElementById("hours");
+  const minutenEl = document.getElementById("minutes");
+  const sekundenEl = document.getElementById("seconds");
+  const countdownEl = document.getElementById("countdown");
+  const doneEl = document.getElementById("done");
+
+  function updateCountdown() {
+    const jetzt = new Date().getTime();
+    const distanz = zielDatum - jetzt;
+    if (distanz < 0) {
+      countdownEl.style.display = "none";
+      doneEl.style.display = "block";
+      clearInterval(timer);
+      return;
+    }
+    const tage = Math.floor(distanz / (1000 * 60 * 60 * 24));
+    const stunden = Math.floor((distanz % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minuten = Math.floor((distanz % (1000 * 60 * 60)) / (1000 * 60));
+    const sekunden = Math.floor((distanz % (1000 * 60)) / 1000);
+    tageEl.textContent = tage;
+    stundenEl.textContent = String(stunden).padStart(2, "0");
+    minutenEl.textContent = String(minuten).padStart(2, "0");
+    sekundenEl.textContent = String(sekunden).padStart(2, "0");
+  }
+  updateCountdown();
+  const timer = setInterval(updateCountdown, 1000);
+</script>
+
+  
 <body>
   <h1>Sprachdidaktik
   </h1>
   <p>Welcome to my website!</p>
   <img src="Erstelle eine Wortwolke mit dem Wort Sprachdidakti.png" />
 
-  <p><a href="countdown.html">Zum Countdown</a></p>
+<div class="countdown" id="countdown">
+  <div class="box">
+    <span class="number" id="days">00</span>
+    <span class="label">Tage</span>
+  </div>
+  <div class="box">
+    <span class="number" id="hours">00</span>
+    <span class="label">Stunden</span>
+  </div>
+  <div class="box">
+    <span class="number" id="minutes">00</span>
+    <span class="label">Minuten</span>
+  </div>
+  <div class="box">
+    <span class="number" id="seconds">00</span>
+    <span class="label">Sekunden</span>
+  </div>
+</div>
+<div class="done" id="done" style="display:none;">🎉 Es ist so weit! 🎉</div>
+  
 </body>
 
 </html>
