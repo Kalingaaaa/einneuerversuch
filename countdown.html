@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+    }
+    .countdown {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .box {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px 25px;
+      min-width: 90px;
+    }
+    .number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      display: block;
+    }
+    .label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+    }
+    .done {
+      font-size: 2rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+ 
+  <h1>Countdown bis zum 30.10.2026</h1>
+ 
+  <div class="countdown" id="countdown">
+    <div class="box">
+      <span class="number" id="days">00</span>
+      <span class="label">Tage</span>
+    </div>
+    <div class="box">
+      <span class="number" id="hours">00</span>
+      <span class="label">Stunden</span>
+    </div>
+    <div class="box">
+      <span class="number" id="minutes">00</span>
+      <span class="label">Minuten</span>
+    </div>
+    <div class="box">
+      <span class="number" id="seconds">00</span>
+      <span class="label">Sekunden</span>
+    </div>
+  </div>
+ 
+  <div class="done" id="done" style="display:none;">🎉 Es ist so weit! 🎉</div>
+ 
+  <script>
+    // Zieldatum hier bei Bedarf anpassen (Format: Jahr, Monat-1, Tag, Stunde, Minute)
+    const zielDatum = new Date(2026, 9, 30, 0, 0, 0).getTime();
+ 
+    const tageEl = document.getElementById("days");
+    const stundenEl = document.getElementById("hours");
+    const minutenEl = document.getElementById("minutes");
+    const sekundenEl = document.getElementById("seconds");
+    const countdownEl = document.getElementById("countdown");
+    const doneEl = document.getElementById("done");
+ 
+    function updateCountdown() {
+      const jetzt = new Date().getTime();
+      const distanz = zielDatum - jetzt;
+ 
+      if (distanz < 0) {
+        countdownEl.style.display = "none";
+        doneEl.style.display = "block";
+        clearInterval(timer);
+        return;
+      }
+ 
+      const tage = Math.floor(distanz / (1000 * 60 * 60 * 24));
+      const stunden = Math.floor((distanz % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minuten = Math.floor((distanz % (1000 * 60 * 60)) / (1000 * 60));
+      const sekunden = Math.floor((distanz % (1000 * 60)) / 1000);
+ 
+      tageEl.textContent = tage;
+      stundenEl.textContent = String(stunden).padStart(2, "0");
+      minutenEl.textContent = String(minuten).padStart(2, "0");
+      sekundenEl.textContent = String(sekunden).padStart(2, "0");
+    }
+ 
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+  </script>
+ 
+</body>
+</html>
